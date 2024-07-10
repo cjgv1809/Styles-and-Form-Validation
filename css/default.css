@@ -1,0 +1,46 @@
+body {
+  background-color: var(--color-gray-200);
+  color: var(--color-dark);
+}
+
+.form {
+  background: var(--color-white);
+  box-shadow: 0 0 5px var(--color-box-shadow);
+}
+
+.form__input,
+.form__select {
+  border: 1px solid var(--color-gray-300);
+}
+
+.form__button--solid {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.form__button--outline {
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.form__button--ghost {
+  color: var(--color-primary);
+}
+
+.form__button--solid:hover {
+  background-color: var(--color-secondary);
+}
+
+.form__button--outline:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+}
+
+.form__button--ghost:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.form__error {
+  color: var(--color-error);
+}
