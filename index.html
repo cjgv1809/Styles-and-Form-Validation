@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="css/common.css" rel="stylesheet" type="text/css" />
+    <link
+      id="stylesheet"
+      href="css/default.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <title>Ejercicio con formularios</title>
+  </head>
+
+  <body>
+    <h1 class="form__title">Ejercicio con formularios</h1>
+
+    <form class="form" id="form">
+      <div class="form__group">
+        <label class="form__label" for="nombre">Nombre</label>
+        <input
+          class="form__input"
+          type="text"
+          id="nombre"
+          name="nombre"
+          placeholder="Ingrese su nombre"
+        />
+        <p class="form__error" id="error-nombre"></p>
+      </div>
+      <div class="form__group">
+        <label class="form__label" for="apellido">Apellido</label>
+        <input
+          class="form__input"
+          type="text"
+          id="apellido"
+          name="apellido"
+          placeholder="Ingrese su apellido"
+        />
+        <p class="form__error" id="error-apellido"></p>
+      </div>
+      <div class="form__group">
+        <label class="form__label" for="email">Email</label>
+        <input
+          class="form__input"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Ingrese su email"
+        />
+        <p class="form__error" id="error-email"></p>
+      </div>
+      <div class="form__group">
+        <label class="form__label" for="fecha-de-nacimiento"
+          >Fecha de nacimiento</label
+        >
+        <input
+          class="form__input"
+          type="date"
+          id="fecha-de-nacimiento"
+          name="fecha-de-nacimiento"
+        />
+        <p class="form__error" id="error-fecha-de-nacimiento"></p>
+      </div>
+      <div class="form__group">
+        <label class="form__label" for="pais-de-residencia"
+          >País de residencia</label
+        >
+        <select
+          class="form__select"
+          name="pais-de-residencia"
+          id="pais-de-residencia"
+        >
+          <option disabled selected>--- Seleccione su país ---</option>
+          <option value="Argentina">Argentina</option>
+          <option value="Brasil">Brasil</option>
+          <option value="Chile">Chile</option>
+          <option value="Colombia">Colombia</option>
+          <option value="Ecuador">Ecuador</option>
+          <option value="Paraguay">Paraguay</option>
+          <option value="Peru">Perú</option>
+          <option value="Uruguay">Uruguay</option>
+          <option value="Venezuela">Venezuela</option>
+        </select>
+        <p class="form__error" id="error-pais-de-residencia"></p>
+      </div>
+      <div class="form__group form__group--buttons">
+        <div>
+          <button
+            class="form__button form__button--solid"
+            type="button"
+            id="estilos1"
+          >
+            Cambiar a estilo1
+          </button>
+          <button
+            class="form__button form__button--outline"
+            type="button"
+            id="estilos2"
+          >
+            Cambiar a estilo2
+          </button>
+        </div>
+        <div>
+          <button class="form__button form__button--ghost" type="submit">
+            Enviar
+          </button>
+        </div>
+      </div>
+    </form>
+    <script src="js/script-styles.js"></script>
+    <script src="js/script-validation.js"></script>
+  </body>
+</html>
