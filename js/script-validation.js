@@ -3,80 +3,104 @@ document.addEventListener("DOMContentLoaded", function () {
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
+
+    const fields = [
+      {
+        id: "nombre",
+        label: "Nombre",
+        required: true,
+        minLength: 3,
+      },
+      {
+        id: "apellido",
+        label: "Apellido",
+        required: true,
+        minLength: 3,
+      },
+      {
+        id: "email",
+        label: "Email",
+        required: true,
+        pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+        errorMsg: "El email no es válido.",
+      },
+      {
+        id: "fecha-de-nacimiento",
+        label: "Fecha de nacimiento",
+        required: true,
+        validator: (field) => {
+          const today = new Date().toISOString().split("T")[0];
+          if (field.value > today) {
+            return "La fecha de nacimiento no puede ser una fecha futura.";
+          }
+          return null; // No error
+        },
+      },
+      {
+        id: "pais-de-residencia",
+        label: "País de residencia",
+        required: true,
+        initialValue: "Seleccione su país",
+        validator: (field) => {
+          if (field.value === "" || field.value === "Seleccione su país") {
+            return "El país de residencia es requerido.";
+          }
+          return null; // No error
+        },
+      },
+    ];
+
     let valid = true;
 
-    // Borrar errores previos
+    // Reset error messages
     document
-      .querySelectorAll(".form__error")
+      .querySelectorAll(".form-text")
       .forEach((el) => (el.textContent = ""));
 
-    // Validar Nombre
-    const nombre = document.getElementById("nombre");
-    if (nombre.value.trim() === "") {
-      valid = false;
-      document.getElementById("error-nombre").textContent =
-        "El nombre es requerido.";
-    }
+    for (const field of fields) {
+      const input = document.getElementById(field.id);
+      const errorElement = document.getElementById(`error-${field.id}`);
 
-    // Validar Apellido
-    const apellido = document.getElementById("apellido");
-    if (apellido.value.trim() === "") {
-      valid = false;
-      document.getElementById("error-apellido").textContent =
-        "El apellido es requerido.";
-    }
-
-    // Validar Email contra expresion regular
-    const email = document.getElementById("email");
-    if (email.value.trim() === "") {
-      valid = false;
-      document.getElementById("error-email").textContent =
-        "El email es requerido.";
-    } else {
-      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-      if (!emailPattern.test(email.value)) {
+      const errorMessage = validateField(input, field);
+      if (errorMessage) {
+        errorElement.textContent = errorMessage;
         valid = false;
-        document.getElementById("error-email").textContent =
-          "El email no es válido.";
+        input.classList.add("is-invalid");
+      } else {
+        input.classList.remove("is-invalid");
+        input.classList.add("is-valid");
       }
-    }
-
-    // Validar Fecha de Nacimiento
-    const fecha = document.getElementById("fecha-de-nacimiento");
-    const today = new Date().toISOString().split("T")[0];
-    if (fecha.value.trim() === "") {
-      valid = false;
-      document.getElementById("error-fecha-de-nacimiento").textContent =
-        "La fecha de nacimiento es requerida.";
-    } else if (fecha.value > today) {
-      valid = false;
-      document.getElementById("error-fecha-de-nacimiento").textContent =
-        "La fecha de nacimiento no puede ser una fecha futura.";
-    }
-
-    // Validar País de Residencia
-    const pais = document.getElementById("pais-de-residencia");
-    if (pais.value === "" || pais.value === "--- Seleccione su país ---") {
-      valid = false;
-      document.getElementById("error-pais-de-residencia").textContent =
-        "El país de residencia es requerido.";
     }
 
     if (valid) {
-      // Enviar el form si todos los campos son validos
+      // Submit the form if all fields are valid
       alert("Formulario enviado con éxito.");
-      // Resetear form
+      // Reset validation classes
+      form
+        .querySelectorAll(".form-control, .form-select")
+        .forEach((el) => el.classList.remove("is-invalid", "is-valid"));
+      // Reset validation classes (optional)
       form.reset();
     }
   });
-
-  // Agregar onblur event listener para borrar errores al perder el foco
-  document.querySelectorAll(".form__input, .form__select").forEach((input) => {
-    input.addEventListener("blur", function () {
-      const errorElement = document.getElementById(`error-${input.id}`);
-      if (errorElement) {
-        errorElement.textContent = "";
-      }
-    });
-  });
 });
+
+function validateField(field, fieldConfig) {
+  if (fieldConfig.required && field.value.trim() === "") {
+    return `${fieldConfig.label} es requerido.`;
+  }
+  if (
+    fieldConfig.minLength &&
+    field.value.trim().length < fieldConfig.minLength
+  ) {
+    return `${fieldConfig.label} debe tener al menos ${fieldConfig.minLength} caracteres.`;
+  }
+  if (fieldConfig.pattern && !fieldConfig.pattern.test(field.value)) {
+    return fieldConfig.errorMsg || "El formato no es válido.";
+  }
+  if (fieldConfig.validator) {
+    const customError = fieldConfig.validator(field);
+    return customError;
+  }
+  return null; // No error
+}
